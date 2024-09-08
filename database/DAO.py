@@ -61,6 +61,9 @@ from
 			group by r2, r1, p) as t 
 group by rr1, rr2
                                          """
+        #prima un group by anche sui prodotti perchè si vuole
+        #quanti prodotti diversi ogni diversa coppia di retailers  ha venduto in comune,
+        #poi altro group by sulla coppia di retailers per contare quanti sono quei diversi prodotti che ha venduto  in comune
         cursor.execute(query, (anno, anno, nazione, nazione))
         for row in cursor:
             result.append((row["rr1"], row["rr2"], row["peso"]))
