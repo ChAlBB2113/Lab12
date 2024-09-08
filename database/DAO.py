@@ -64,6 +64,24 @@ group by rr1, rr2
         #prima un group by anche sui prodotti perchè si vuole
         #quanti prodotti diversi ogni diversa coppia di retailers  ha venduto in comune,
         #poi altro group by sulla coppia di retailers per contare quanti sono quei diversi prodotti che ha venduto  in comune
+
+        # altrimenti stessa cosa era selezionando subito il conteggio del numero dei distinti prodotti
+        # per ciascuna coppia di retailers cosi da filtrare eventuali doppioni (prodotti comuni venduti in giorni diversi,
+        # visto che a me interessa solo num di prodotti diversi, semza tener conto di num di volte in cui
+        # prodotto è stato venduto da stessi due retailers   :
+        """'''select g1.Retailer_code as rr1 , g2.Retailer_code as rr2, count( distinct(g1.Product_number)) as peso
+			from go_daily_sales g1, go_daily_sales g2
+			where year(g1.`Date`)=%s and year(g2.`Date`)=%s
+			and g1.Retailer_code in (select distinct (Retailer_code) as r
+			                    from go_retailers
+			                    where Country=%s)
+			and g2.Retailer_code in (select distinct (Retailer_code) as r
+			                    from go_retailers
+			                    where Country=%s)
+			and g1.Product_number=g2.Product_number
+			and g1.Retailer_code<g2.Retailer_code 
+			group by rr2, rr1
+        '''"""
         cursor.execute(query, (anno, anno, nazione, nazione))
         for row in cursor:
             result.append((row["rr1"], row["rr2"], row["peso"]))
