@@ -37,6 +37,8 @@ class View(ft.UserControl):
         self.ddyear = ft.Dropdown(label="Anno")
         self.ddcountry= ft.Dropdown(label="Nazione")
 
+        self._controller.fillDD()
+
         self.btn_graph = ft.ElevatedButton(text="Crea Grafo", on_click=self._controller.handle_graph)
 
         row1 = ft.Row([self.ddyear, self.ddcountry, self.btn_graph],
